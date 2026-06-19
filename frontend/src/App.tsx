@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
-  Sparkles, User, Clock, ArrowRight, MessageSquare, Send,
-  Image as ImageIcon, BarChart3, TrendingUp, Bot, Activity,
+  Sparkles, User, Clock, ArrowRight, MessageSquare,
+  BarChart3, Bot, Activity,
   Database, Link as LinkIcon, CheckCircle2, AlertCircle,
-  RefreshCw, Loader2
+  Loader2
 } from 'lucide-react';
 import {
   BarChart, Bar, Cell, ResponsiveContainer, Tooltip,
   XAxis, YAxis, CartesianGrid, AreaChart, Area
 } from 'recharts';
 
-// ─── Types ────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface DashboardStats {
   aiAnswered: number;
   humanPending: number;
@@ -30,7 +30,7 @@ interface Conversation {
   latency_ms: number;
 }
 
-// ─── App Root ─────────────────────────────────────────────────
+// â”€â”€â”€ App Root â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function App() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [mounted, setMounted] = useState(false);
@@ -102,10 +102,10 @@ export default function App() {
   );
 }
 
-// ─── Dashboard Tab ────────────────────────────────────────────
+// â”€â”€â”€ Dashboard Tab â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function DashboardTab() {
   const [stats, setStats] = useState<DashboardStats>({
-    aiAnswered: 0, humanPending: 0, avgLatency: '—',
+    aiAnswered: 0, humanPending: 0, avgLatency: 'â€”',
     volumeData: [], latencyData: []
   });
   const [activity, setActivity] = useState<Conversation[]>([]);
@@ -147,18 +147,18 @@ function DashboardTab() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="AI Answered Questions"
-          value={loading ? '…' : stats.aiAnswered.toLocaleString()}
+          value={loading ? 'â€¦' : stats.aiAnswered.toLocaleString()}
           icon={<Bot size={22} className="text-[#CFA052]" strokeWidth={1.5} />}
         />
         <StatCard
           title="Pending Human Interactions"
-          value={loading ? '…' : String(stats.humanPending).padStart(2, '0')}
+          value={loading ? 'â€¦' : String(stats.humanPending).padStart(2, '0')}
           icon={<User size={22} className="text-[#D9534F]" strokeWidth={1.5} />}
           alert={stats.humanPending > 0}
         />
         <StatCard
           title="Average Answering Time"
-          value={loading ? '…' : stats.avgLatency}
+          value={loading ? 'â€¦' : stats.avgLatency}
           icon={<Clock size={22} className="text-[#CFA052]" strokeWidth={1.5} />}
         />
       </div>
@@ -233,7 +233,7 @@ function DashboardTab() {
           <div className="pl-6 md:pl-10 border-l-2 border-[#EADDCD]/50 space-y-14 relative z-10">
             {activity.map((log) => {
               const timeAgo = getTimeAgo(log.created_at);
-              const latencySec = log.latency_ms ? `${(log.latency_ms / 1000).toFixed(1)}s` : '—';
+              const latencySec = log.latency_ms ? `${(log.latency_ms / 1000).toFixed(1)}s` : 'â€”';
               const isAnswered = log.status === 'answered';
               return (
                 <div key={log.id} className="relative">
@@ -250,7 +250,7 @@ function DashboardTab() {
                           <div>
                             <span className="block text-xs font-bold text-[#2A2A2A] uppercase tracking-wider">Customer</span>
                             <span className="block text-[11px] text-[#8A8A8A] mt-0.5">
-                              {timeAgo} · <span className="capitalize">{(log.platform || '').replace('_', ' ')}</span>
+                              {timeAgo} Â· <span className="capitalize">{(log.platform || '').replace('_', ' ')}</span>
                             </span>
                           </div>
                         </div>
@@ -267,7 +267,7 @@ function DashboardTab() {
                       )}
                     </div>
 
-                    {/* AI Response — Answered */}
+                    {/* AI Response â€” Answered */}
                     {isAnswered ? (
                       <div className="bg-gradient-to-br from-white to-[#FDFBF7] border border-[#CFA052]/30 p-6 md:p-7 rounded-2xl rounded-bl-none shadow-[0_8px_30px_rgba(212,175,55,0.06)] ml-4 md:ml-12 hover:border-[#CFA052]/60 transition-colors">
                         <div className="flex justify-between items-start mb-4">
@@ -277,7 +277,7 @@ function DashboardTab() {
                             </div>
                             <div>
                               <span className="block text-xs font-bold text-[#CFA052] uppercase tracking-wider">AI Agent</span>
-                              <span className="block text-[11px] text-[#8A8A8A] mt-0.5">{timeAgo} · <span className="text-[#CFA052] font-medium">{latencySec}</span></span>
+                              <span className="block text-[11px] text-[#8A8A8A] mt-0.5">{timeAgo} Â· <span className="text-[#CFA052] font-medium">{latencySec}</span></span>
                             </div>
                           </div>
                           <span className="text-[10px] uppercase tracking-widest text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/20 px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5">
@@ -296,7 +296,7 @@ function DashboardTab() {
                             </div>
                             <div>
                               <span className="block text-xs font-bold text-[#D9534F] uppercase tracking-wider">Requires Human Review</span>
-                              <span className="block text-[11px] text-[#8A8A8A] mt-0.5">{timeAgo} · Escalated</span>
+                              <span className="block text-[11px] text-[#8A8A8A] mt-0.5">{timeAgo} Â· Escalated</span>
                             </div>
                           </div>
                           <span className="text-[10px] uppercase tracking-widest text-[#D9534F] bg-red-50 border border-red-200 px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5 animate-pulse">
@@ -319,7 +319,7 @@ function DashboardTab() {
   );
 }
 
-// ─── Automation Tab ───────────────────────────────────────────
+// â”€â”€â”€ Automation Tab â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function AutomationTab() {
   const [keyword, setKeyword] = useState('');
   const [explanation, setExplanation] = useState('');
@@ -356,7 +356,7 @@ function AutomationTab() {
       }
 
       await Promise.all(ops);
-      setMessage({ type: 'success', text: 'Knowledge base updated successfully, Ji! ✨' });
+      setMessage({ type: 'success', text: 'Knowledge base updated successfully, Ji! âœ¨' });
       setKeyword(''); setExplanation(''); setInstagramLink(''); setProductId('');
     } catch {
       setMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
@@ -400,7 +400,7 @@ function AutomationTab() {
                 <div className="flex items-center gap-4">
                   <span className="text-[#8A8A8A] font-light italic shrink-0">Keywords:</span>
                   <input type="text" value={keyword} onChange={e => setKeyword(e.target.value)}
-                    placeholder="e.g. Polki, Choker, Bridal…"
+                    placeholder="e.g. Polki, Choker, Bridalâ€¦"
                     className="w-full bg-transparent border-b border-[#EADDCD] p-2 text-[#2A2A2A] focus:outline-none focus:border-[#CFA052] placeholder:text-[#D1D1D1] font-light transition-colors" />
                   <ArrowRight className="text-[#D1D1D1] group-hover:text-[#CFA052] transition-colors shrink-0" size={20} strokeWidth={1.5} />
                 </div>
@@ -424,7 +424,7 @@ function AutomationTab() {
                 <label className="block text-xs uppercase tracking-[0.2em] text-[#CFA052] mb-3 font-semibold md:hidden">02. Explain Addition</label>
                 <div className="relative">
                   <textarea value={explanation} onChange={e => setExplanation(e.target.value)}
-                    placeholder="Type your explanation here to train the agent…"
+                    placeholder="Type your explanation here to train the agentâ€¦"
                     rows={3}
                     className="w-full bg-[#FBFBFA] border border-[#EADDCD] rounded-xl p-4 text-[#2A2A2A] focus:outline-none focus:border-[#CFA052] focus:ring-1 focus:ring-[#CFA052] placeholder:text-[#D1D1D1] font-light resize-none transition-all shadow-inner" />
                   <div className="absolute bottom-4 right-4 bg-white rounded-full p-2 shadow-sm border border-[#EADDCD]">
@@ -452,7 +452,7 @@ function AutomationTab() {
                 <div className="flex flex-col gap-5">
                   <div className="flex items-center gap-4">
                     <input type="text" value={instagramLink} onChange={e => setInstagramLink(e.target.value)}
-                      placeholder="Instagram Post Link (e.g. https://www.instagram.com/p/…)"
+                      placeholder="Instagram Post Link (e.g. https://www.instagram.com/p/â€¦)"
                       className="flex-1 bg-transparent border-b border-[#EADDCD] p-2 text-[#2A2A2A] focus:outline-none focus:border-[#2A2A2A] placeholder:text-[#D1D1D1] font-light transition-colors" />
                     <ArrowRight className="text-[#D1D1D1] group-hover:text-[#2A2A2A] transition-colors shrink-0" size={18} strokeWidth={1.5} />
                   </div>
@@ -486,7 +486,7 @@ function AutomationTab() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#CFA052] to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <span className="relative z-10 flex items-center gap-3 text-sm uppercase tracking-[0.2em] font-medium">
             {submitting
-              ? <><Loader2 size={16} className="animate-spin" /> Updating…</>
+              ? <><Loader2 size={16} className="animate-spin" /> Updatingâ€¦</>
               : <><Sparkles size={16} /> Update Knowledge Base</>
             }
           </span>
@@ -496,7 +496,7 @@ function AutomationTab() {
   );
 }
 
-// ─── Tips Tab (Coming Soon) ────────────────────────────────────
+// â”€â”€â”€ Tips Tab (Coming Soon) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function TipsTab() {
   return (
     <div className="max-w-5xl mx-auto h-[80vh] flex flex-col items-center justify-center relative z-10">
@@ -516,7 +516,7 @@ function TipsTab() {
   );
 }
 
-// ─── StatCard ─────────────────────────────────────────────────
+// â”€â”€â”€ StatCard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function StatCard({ title, value, icon, alert = false }: { title: string; value: string | number; icon: React.ReactNode; alert?: boolean }) {
   return (
     <div className={`relative p-6 md:p-8 rounded-3xl border shadow-sm group overflow-hidden transition-all duration-500 hover:-translate-y-1 ${
@@ -544,7 +544,7 @@ function StatCard({ title, value, icon, alert = false }: { title: string; value:
   );
 }
 
-// ─── Helpers ──────────────────────────────────────────────────
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function getTimeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
   const m = Math.floor(diff / 60000);
