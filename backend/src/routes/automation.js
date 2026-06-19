@@ -1,7 +1,8 @@
+const express = require('express');
 const router = express.Router();
 const { supabase } = require('../db/supabase');
 
-// Add context (keyword + explanation → company_context table)
+// Add context (keyword + explanation -> company_context table)
 router.post('/context', async (req, res) => {
   try {
     const { keyword, explanation } = req.body;
@@ -23,7 +24,6 @@ router.post('/product', async (req, res) => {
       return res.status(400).json({ error: 'Both Instagram link and Product ID are required' });
     }
 
-    // If product already synced from Ornate, just update the link
     const { data: existing } = await supabase.from('products').select('id').eq('product_id', productId).single();
 
     if (existing) {
@@ -31,14 +31,13 @@ router.post('/product', async (req, res) => {
       return res.json({ success: true, message: 'Instagram link updated for existing product' });
     }
 
-    // Product not yet synced — insert placeholder (Ornate bridge will fill details on next sync)
     await supabase.from('products').insert({
       product_id: productId,
       instagram_link: instagramLink,
-      name: 'Pending Ornate Sync…',
+      name: 'Pending Ornate Sync',
       price: 0,
       weight: 0,
-      purity: '—'
+      purity: 'unknown'
     });
     res.json({ success: true, message: 'Product queued. Details will auto-fill at next Ornate sync.' });
   } catch (err) {
